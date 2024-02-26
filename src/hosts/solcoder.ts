@@ -6,7 +6,6 @@ export const solcoder = () => {
   const ips = new Map<string, number>()
   app.use(cors())
   app.post('/', async (req: Request, res: any, next: any) => {
-    console.log('req', req)
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
       res.setHeader('Content-Type', 'application/json');
       const remainer = 10000 - (Date.now() - (ips.get(req.ip) as number))
@@ -14,7 +13,6 @@ export const solcoder = () => {
       next()
       return
     }
-    console.log('ip', req.ip)
     ips.set(req.ip, Date.now())
 
     const prompt = req.body.data[0]
