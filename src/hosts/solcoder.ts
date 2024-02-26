@@ -25,7 +25,7 @@ export const solcoder = () => {
         {"data":[prompt,params[0], params[1], params[2], params[3], params[4]]} 
     )
 
-    const response = result.data.data[0]
+    const response = result.data
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(response));
     next()
