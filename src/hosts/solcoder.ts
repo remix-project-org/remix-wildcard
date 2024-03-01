@@ -19,7 +19,7 @@ export const solcoder = () => {
     const prompt = req.body.data[0]
     const task = req.body.data[1]
     const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( "https://hkfll35zthu6e2-7861.proxy.runpod.net/api/".concat(task),
+    const result = await axio.post( "https://hkfll35zthu6e2-7861.proxy.runpod.net/ai/api/".concat(task),
       JSON.stringify(task==="code_completion") ? 
         {"data":[prompt,params[0], params[1], params[2], params[3], params[4], params[5]]} :
         {"data":[prompt,params[0], params[1], params[2], params[3], params[4]]} 
