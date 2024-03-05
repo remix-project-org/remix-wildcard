@@ -26,7 +26,7 @@ app.use(morgan('common', {
 app.use(morgan('dev'));
 
 
-app.use(vhost('*', remixProject()));
+// app.use(vhost('*', remixProject()));
 app.use(vhost('remixproject.org', remixProject()))
 app.use(vhost('www.remixproject.org', remixProject()))
 app.use(vhost('embedly.remixproject.org', embedly()))
