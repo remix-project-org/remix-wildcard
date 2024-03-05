@@ -13,6 +13,7 @@ import { vyperProxy } from './hosts/vyperproxy'
 import { vyper2Proxy } from './hosts/vyper2'
 import { openaigpt } from './hosts/openai-gpt'
 import { solcoder } from './hosts/solcoder'
+import {solcompletion} from './hosts/sol-completion'
 import { gptchat } from './hosts/gpt-chat'
 import { RSS } from './hosts/rss';
 import morgan from 'morgan';
@@ -26,19 +27,21 @@ app.use(morgan('dev'));
 
 
 // app.use(vhost('*', remixProject()));
-app.use(vhost('remixproject.org', remixProject()))
-app.use(vhost('www.remixproject.org', remixProject()))
-app.use(vhost('embedly.remixproject.org', embedly()))
-app.use(vhost('*.dyn.plugin.remixproject.org', ipfsPlugin()))
-app.use(vhost('jqgt.remixproject.org', ipfsGatewayPlugin()))
-app.use(vhost('corsproxy.remixproject.org', corsProxy()))
-app.use(vhost('vyper.remixproject.org', vyperProxy()))
-app.use(vhost('vyper2.remixproject.org', vyper2Proxy()))
-app.use(vhost('rss.remixproject.org', RSS()))
-app.use(vhost('status.remixproject.org', StatusPlugin()))
-app.use(vhost('openai-gpt.remixproject.org', openaigpt()))
-app.use(vhost('solcoder.remixproject.org', solcoder()))
-app.use(vhost('gpt-chat.remixproject.org', gptchat()))
+// app.use(vhost('remixproject.org', remixProject()))
+// app.use(vhost('www.remixproject.org', remixProject()))
+// app.use(vhost('embedly.remixproject.org', embedly()))
+// app.use(vhost('*.dyn.plugin.remixproject.org', ipfsPlugin()))
+// app.use(vhost('jqgt.remixproject.org', ipfsGatewayPlugin()))
+// app.use(vhost('corsproxy.remixproject.org', corsProxy()))
+// app.use(vhost('vyper.remixproject.org', vyperProxy()))
+// app.use(vhost('vyper2.remixproject.org', vyper2Proxy()))
+// app.use(vhost('rss.remixproject.org', RSS()))
+// app.use(vhost('status.remixproject.org', StatusPlugin()))
+// app.use(vhost('openai-gpt.remixproject.org', openaigpt()))
+// app.use(vhost('solcoder.remixproject.org', solcoder()))
+// app.use(vhost('gpt-chat.remixproject.org', gptchat()))
+// app.use(vhost('completion.remixproject.org', solcoder()))
+app.use(vhost('localhost', solcompletion()))
 // Start the server
 const port = Number(80);
 app.listen(port, () => {
