@@ -13,6 +13,7 @@ import { vyperProxy } from './hosts/vyperproxy'
 import { vyper2Proxy } from './hosts/vyper2'
 import { openaigpt } from './hosts/openai-gpt'
 import { solcoder } from './hosts/solcoder'
+import {solcompletion} from './hosts/sol-completion'
 import { gptchat } from './hosts/gpt-chat'
 import { RSS } from './hosts/rss';
 import morgan from 'morgan';
@@ -39,6 +40,8 @@ app.use(vhost('status.remixproject.org', StatusPlugin()))
 app.use(vhost('openai-gpt.remixproject.org', openaigpt()))
 app.use(vhost('solcoder.remixproject.org', solcoder()))
 app.use(vhost('gpt-chat.remixproject.org', gptchat()))
+app.use(vhost('completion.remixproject.org', solcompletion()))
+
 // Start the server
 const port = Number(80);
 app.listen(port, () => {
