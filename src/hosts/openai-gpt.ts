@@ -12,7 +12,7 @@ export const openaigpt = () => {
   const ips = new Map<string, number>()
   app.use(cors())
   app.post('/', async (req: Request, res: any, next: any) => {
-    console.log('req', req)
+
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 20000) { // 1 call every 20 seconds
       res.setHeader('Content-Type', 'application/json');
       const remainer = 20000 - (Date.now() - (ips.get(req.ip) as number))
@@ -20,7 +20,7 @@ export const openaigpt = () => {
       next()
       return
     }
-    console.log('ip', req.ip)
+
     ips.set(req.ip, Date.now())
     const prompt = req.body.prompt
     const result = await openai.createChatCompletion(
