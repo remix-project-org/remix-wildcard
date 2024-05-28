@@ -30,7 +30,6 @@ app.use(morgan('dev'));
 app.use(vhost('remixproject.org', remixProject()))
 app.use(vhost('www.remixproject.org', remixProject()))
 app.use(vhost('embedly.remixproject.org', embedly()))
-app.use(vhost('*.dyn.plugin.remixproject.org', ipfsPlugin()))
 app.use(vhost('jqgt.remixproject.org', ipfsGatewayPlugin()))
 app.use(vhost('corsproxy.remixproject.org', corsProxy()))
 app.use(vhost('vyper.remixproject.org', vyperProxy()))
@@ -50,8 +49,8 @@ app.listen(port, () => {
 
 try {
     const httpsServer = https.createServer({
-        key: fs.readFileSync('/etc/letsencrypt/live/remixproject.org/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/remixproject.org/fullchain.pem'),
+        key: fs.readFileSync('/etc/letsencrypt/live/acme.remixproject.org/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/acme.remixproject.org/fullchain.pem'),
       }, app);
       
     httpsServer.listen(443, () => {
