@@ -18,6 +18,7 @@ import { gptchat } from './hosts/gpt-chat'
 import { RSS } from './hosts/rss';
 import morgan from 'morgan';
 import { StatusPlugin } from './hosts/status'
+import { solidityScan } from './hosts/solidityscan'
 
 // log using winston
 app.use(morgan('common', {
@@ -26,7 +27,7 @@ app.use(morgan('common', {
 app.use(morgan('dev'));
 
 
-// app.use(vhost('*', remixProject()));
+//app.use(vhost('*', remixProject()));
 app.use(vhost('remixproject.org', remixProject()))
 app.use(vhost('www.remixproject.org', remixProject()))
 app.use(vhost('embedly.remixproject.org', embedly()))
@@ -40,6 +41,7 @@ app.use(vhost('openai-gpt.remixproject.org', openaigpt()))
 app.use(vhost('solcoder.remixproject.org', solcoder()))
 app.use(vhost('gpt-chat.remixproject.org', gptchat()))
 app.use(vhost('completion.remixproject.org', solcompletion()))
+app.use(vhost('solidityscan.remixproject.org', solidityScan()))
 
 // Start the server
 const port = Number(80);
