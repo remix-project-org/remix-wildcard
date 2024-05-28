@@ -10,7 +10,7 @@ export const solcompletion = () => {
     const prompt = req.body.data[0]
     const task = req.body.data[1]
     const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( "https://v4epedllnaipwu-7860.proxy.runpod.net/ai/api/".concat(task),
+    const result = await axio.post( "https://e8y4qytwj2or2w-7860.proxy.runpod.net/ai/api/".concat(task),
         {"data":[prompt, ...params]}
     )
 
