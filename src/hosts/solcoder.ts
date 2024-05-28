@@ -22,7 +22,6 @@ export const solcoder = () => {
     const result = await axio.post( "https://2fyu0jceage7xe-7861.proxy.runpod.net/ai/api/".concat(task),
         {"data":[prompt, ...params]}
     )
-
     const response = result.data
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(response));
