@@ -39,7 +39,8 @@
     "morgan": "^1.10.0",
     "openai": "3.3.0",
     "vhost": "^3.0.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",
@@ -53,6 +54,7 @@
     "@types/morgan": "^1.9.0",
     "@types/node": "^13.11.1",
     "@types/supertest": "^2.0.8",
+    "@types/ws": "^8.5.0",
     "find": "^0.3.0",
     "fs-extra": "^9.0.0",
     "jasmine": "^3.5.0",

@@ -13,16 +13,17 @@ import { vyperProxy } from './hosts/vyperproxy'
 import { vyper2Proxy } from './hosts/vyper2'
 import { openaigpt } from './hosts/openai-gpt'
 import { solcoder } from './hosts/solcoder'
-import {solcompletion} from './hosts/sol-completion'
+import { solcompletion } from './hosts/sol-completion'
 import { gptchat } from './hosts/gpt-chat'
 import { RSS } from './hosts/rss';
 import morgan from 'morgan';
 import { StatusPlugin } from './hosts/status'
 import { solidityScan } from './hosts/solidityscan'
+import { setupWsServer } from './hosts/ws-solidityscan'
 
 // log using winston
 app.use(morgan('common', {
-    stream: fs.createWriteStream('./access.log', {flags: 'a'})
+    stream: fs.createWriteStream('./access.log', { flags: 'a' })
 }));
 app.use(morgan('dev'));
 
@@ -54,11 +55,12 @@ try {
     const httpsServer = https.createServer({
         key: fs.readFileSync('/etc/letsencrypt/live/acme.remixproject.org/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/acme.remixproject.org/fullchain.pem'),
-      }, app);
-      
+    }, app);
+    setupWsServer(httpsServer, '/solidityscan');
     httpsServer.listen(443, () => {
         logger.info('HTTPS Server running on port 443');
     });
+
 } catch (e) {
     console.warn(e)
 }
