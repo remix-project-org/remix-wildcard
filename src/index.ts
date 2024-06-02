@@ -20,6 +20,7 @@ import morgan from 'morgan';
 import { StatusPlugin } from './hosts/status'
 import { solidityScan } from './hosts/solidityscan'
 import { setupWsServer } from './hosts/ws-solidityscan'
+import { gitHub } from './hosts/github'
 
 // log using winston
 app.use(morgan('common', {
@@ -44,6 +45,7 @@ app.use(vhost('solcoder.remixproject.org', solcoder()))
 app.use(vhost('gpt-chat.remixproject.org', gptchat()))
 app.use(vhost('completion.remixproject.org', solcompletion()))
 app.use(vhost('solidityscan.remixproject.org', solidityScan()))
+app.use(vhost('github.remixproject.org', gitHub()))
 
 // Start the server
 const port = Number(80);

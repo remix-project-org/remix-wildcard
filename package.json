@@ -2,15 +2,10 @@
   "name": "remix-wildcard",
   "version": "0.0.0",
   "scripts": {
-    "build": "node ./util/build.js",
+    "build": "yarn tsc --build tsconfig.prod.json && node ./util/build.js",
     "lint": "tslint --project \"tsconfig.json\"",
     "start": "node -r module-alias/register ./dist",
-    "start:dev": "nodemon --config nodemon.json",
-    "test": "nodemon --config nodemon.test.json",
-    "start:prod": "NODE_ENV=production pm2 start --name remix npm -- run start",
-    "stop:prod": "pm2 stop remix",
-    "delete:prod": "pm2 delete remix",
-    "restart:prod": "npx pm2 stop remix; npx pm2 delete remix; npm run build && npm run start:prod",
+    "restart:production": "service wildcard stop && service wildcard start",
     "update": "git fetch origin master && git checkout origin/master"
   },
   "_moduleAliases": {
