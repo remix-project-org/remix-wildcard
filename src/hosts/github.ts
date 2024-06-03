@@ -1,10 +1,12 @@
 import axios from 'axios';
+import cors from 'cors'
 import express from 'express';
 import serveStatic = require('serve-static');
 
 export const gitHub = () => {
   const app = express();
   console.log('gitHub middleware')
+  app.use(cors())
   // this handled the certbot certificate verification for the sub domains
   app.use('/.well-known', serveStatic('public/.well-known'))
   app.use((req, res, next) => {
