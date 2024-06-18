@@ -2,14 +2,13 @@ import express from 'express'
 import axios from 'axios';
 import cors from 'cors'
 import path from 'path';
-import FormData from 'form-data';
 
 const apiToken = process.env['SOLIDITYSCAN_TOKEN']
 
 export const solidityScan = () => {
     const app = express()
     app.use(cors())
-    app.use('/', async (req: any, res: any, next: any) => {
+    app.use('/uploadFile', async (req: any, res: any, next: any) => {
 
 
         if (!req.body || !req.body.fileName) {
@@ -42,14 +41,9 @@ export const solidityScan = () => {
 
             if (urlResponse && urlResponse.data && urlResponse.data.result && urlResponse.data.result.url) {
 
-                let formData = new FormData()
-                formData.append('file', req.body.file)
+                const fileinBinary = Buffer.from(req.body.file, 'binary') 
 
-                const putResponse = await axios.put(urlResponse.data.result.url, formData, {
-                    headers: {
-                        'Content-Type': 'application/octet-stream'
-                    }
-                });
+                const putResponse = await axios.put(urlResponse.data.result.url, fileinBinary);
                 
                 if (putResponse.status === 200) {
                     res.setHeader('Content-Type', 'application/json');
@@ -69,6 +63,36 @@ export const solidityScan = () => {
 
         } catch (error) {
 
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200);
+            res.end(JSON.stringify({ error: error }));
+            next()
+            return
+        }
+
+    })
+
+    app.use('/downloadResult', async (req: any, res: any, next: any) => {
+
+
+        if (!req.body || !req.body.url) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200);
+            res.end(JSON.stringify({ error: 'url missing' }));
+            next()
+            return
+        }
+
+        const url = req.body.url
+
+        try {
+            const urlResponse = await axios.get(url)
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(urlResponse.data));
+            next()
+            return
+
+        } catch (error) {
             res.setHeader('Content-Type', 'application/json');
             res.status(200);
             res.end(JSON.stringify({ error: error }));
