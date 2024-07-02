@@ -8,6 +8,7 @@ export const ghfolderpull = () => {
   const app = express()
   app.use(cors())
   console.log('set ghfolder')
+  app.use('/.well-known', express.static('public/.well-known'));
   app.use('/', async (req: any, res: any, next: any) => {
     const url = new URL(req.query.ghfolder);
     console.log('get ghfolder', req.query, apiToken, process.env)

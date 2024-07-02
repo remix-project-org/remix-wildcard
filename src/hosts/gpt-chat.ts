@@ -1,9 +1,12 @@
 import connect from 'connect'
+import serveStatic = require('serve-static');
+
 import { responseInterceptor } from 'http-proxy-middleware'
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 export const gptchat = () => {
     const app = connect()
+    app.use('/.well-known', serveStatic('public/.well-known') as connect.HandleFunction)
     app.use('/', createProxyMiddleware({
         target: 'http://localhost:9080/',
         changeOrigin: true,

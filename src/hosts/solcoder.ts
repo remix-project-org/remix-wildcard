@@ -6,6 +6,7 @@ export const solcoder = () => {
   const app = express()
   const ips = new Map<string, number>()
   app.use(cors())
+  app.use('/.well-known', express.static('public/.well-known'));
   app.post('/', async (req: any, res: any, next: any) => {
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
       res.setHeader('Content-Type', 'application/json');
@@ -19,7 +20,7 @@ export const solcoder = () => {
     const prompt = req.body.data[0]
     const task = req.body.data[1]
     const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( "https://2fyu0jceage7xe-7861.proxy.runpod.net/ai/api/".concat(task),
+    const result = await axio.post( "https://yiyimdziylm6t0-7861.proxy.runpod.net/ai/api/".concat(task),
         {"data":[prompt, ...params]}
     )
 
