@@ -14,15 +14,15 @@ export const openaigpt = () => {
   app.use('/.well-known', express.static('public/.well-known'));
   app.post('/', async (req: Request, res: any, next: any) => {
 
-    if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 20000) { // 1 call every 20 seconds
+    if (ips.get(req.ip as any) && (Date.now() - (ips.get(req.ip as any) as number)) < 20000) { // 1 call every 20 seconds
       res.setHeader('Content-Type', 'application/json');
-      const remainer = 20000 - (Date.now() - (ips.get(req.ip) as number))
+      const remainer = 20000 - (Date.now() - (ips.get(req.ip as any) as number))
       res.end(JSON.stringify({ error: `rate limit exceeded, please wait ${remainer} ms` }));
       next()
       return
     }
 
-    ips.set(req.ip, Date.now())
+    ips.set(req.ip as any, Date.now())
     const prompt = req.body.prompt
     const result = await openai.createChatCompletion(
       {

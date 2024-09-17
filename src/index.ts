@@ -9,6 +9,7 @@ import { ipfsPlugin } from './hosts/ipfs-plugin'
 import { remixProject } from './hosts/remix-project'
 import { ipfsGatewayPlugin } from './hosts/ipfs-gateway-plugins'
 import { corsProxy } from './hosts/corsproxy'
+import { commonCorsProxy } from './hosts/common-corsproxy'
 import { vyperProxy } from './hosts/vyperproxy'
 import { vyper2Proxy } from './hosts/vyper2'
 import { openaigpt } from './hosts/openai-gpt'
@@ -48,6 +49,7 @@ app.use(vhost('completion.remixproject.org', solcompletion()))
 app.use(vhost('solidityscan.remixproject.org', solidityScan()))
 app.use(vhost('github.remixproject.org', gitHub()))
 app.use(vhost('ghfolderpull.remixproject.org', ghfolderpull()))
+app.use(vhost('common-corsproxy.remixproject.org', commonCorsProxy()))
 
 // Start the server
 const port = Number(80);
