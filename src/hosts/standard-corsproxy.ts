@@ -1,5 +1,6 @@
 import connect from 'connect';
 import { Request, Response, NextFunction } from "express";
+import serveStatic = require('serve-static');
 const { createProxyMiddleware } = require('http-proxy-middleware')
 import type { ClientRequest } from "http";
 import cors from "cors";
@@ -86,6 +87,8 @@ export const standardCorsProxy = () => {
         
       });
 
+    // this handled the certbot certificate verification for the sub domains
+    app.use('/.well-known', serveStatic('public/.well-known'))
     app.use('/', proxyMiddleware)
     return app
 }
