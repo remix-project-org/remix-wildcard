@@ -21,6 +21,7 @@ import { StatusPlugin } from './hosts/status'
 import { solidityScan } from './hosts/solidityscan'
 import { setupWsServer } from './hosts/ws-solidityscan'
 import { gitHub } from './hosts/github'
+import { ghfolderpull } from './hosts/gh-folder-pull'
 
 // log using winston
 app.use(morgan('common', {
@@ -46,6 +47,7 @@ app.use(vhost('gpt-chat.remixproject.org', gptchat()))
 app.use(vhost('completion.remixproject.org', solcompletion()))
 app.use(vhost('solidityscan.remixproject.org', solidityScan()))
 app.use(vhost('github.remixproject.org', gitHub()))
+app.use(vhost('ghfolderpull.remixproject.org', ghfolderpull()))
 
 // Start the server
 const port = Number(80);

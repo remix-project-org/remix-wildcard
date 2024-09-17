@@ -8,6 +8,7 @@ const apiToken = process.env['SOLIDITYSCAN_TOKEN']
 export const solidityScan = () => {
     const app = express()
     app.use(cors())
+    app.use('/.well-known', express.static('public/.well-known'));
     app.use('/uploadFile', async (req: any, res: any, next: any) => {
 
 

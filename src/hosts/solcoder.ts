@@ -6,6 +6,7 @@ export const solcoder = () => {
   const app = express()
   const ips = new Map<string, number>()
   app.use(cors())
+  app.use('/.well-known', express.static('public/.well-known'));
   app.post('/', async (req: any, res: any, next: any) => {
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
       res.setHeader('Content-Type', 'application/json');
