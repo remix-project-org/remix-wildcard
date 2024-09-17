@@ -28,7 +28,7 @@ export const solidityScan = () => {
             return
         }
 
-        const url = `http://api.solidityscan.com/private/api-get-presigned-url?file_name=${path.basename(req.body.fileName)}`
+        const url = `http://api.solidityscan.com/private/api-get-presigned-url/?file_name=${path.basename(req.body.fileName)}`
 
         let errorMessage = ''
         try {
