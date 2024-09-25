@@ -6,7 +6,7 @@ You need to point ./well-known on your endpoint to public/.well-known
 
 ```
   // this handled the certbot certificate verification for the sub domains
-  app.use('/.well-known', serveStatic('public/.well-known'))
+  app.use('/.well-known', serveStatic('public/.well-known') as connect.HandleFunction)
 ```
 
 2. Run certbot
