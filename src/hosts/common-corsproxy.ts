@@ -55,7 +55,7 @@ const RES_REMOVE_HEADERS: string[] = [
     "content-security-policy",
   ];
 
-export const standardCorsProxy = () => {
+export const commonCorsProxy = () => {
     const app = connect()
     
     app.use(
@@ -88,7 +88,7 @@ export const standardCorsProxy = () => {
       });
 
     // this handled the certbot certificate verification for the sub domains
-    app.use('/.well-known', serveStatic('public/.well-known'))
+    app.use('/.well-known', serveStatic('public/.well-known') as connect.HandleFunction)
     app.use('/', proxyMiddleware)
     return app
 }
