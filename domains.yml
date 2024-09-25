@@ -1,0 +1,16 @@
+domains:
+- embedly.remixproject.org
+- completion.remixproject.org
+- corsproxy.remixproject.org
+- github.remixproject.org
+- gpt-chat.remixproject.org
+- jqgt.remixproject.org
+- openai-gpt.remixproject.org
+- rss.remixproject.org
+- solcoder.remixproject.org
+- solidityscan.remixproject.org
+- status.remixproject.org
+- vyper.remixproject.org
+- vyper2.remixproject.org
+- ghfolderpull.remixproject.org
+- common-corsproxy.remixproject.org
