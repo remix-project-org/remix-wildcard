@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors'
 import axio from 'axios'
 
+const comnpletion_url = process.env['COMPLETION_URL'] as string
+
 export const solcompletion = () => {
   const app = express()
   const ips = new Map<string, number>()
@@ -11,7 +13,7 @@ export const solcompletion = () => {
     const prompt = req.body.data[0]
     const task = req.body.data[1]
     const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( "https://e8y4qytwj2or2w-7860.proxy.runpod.net/ai/api/".concat(task),
+    const result = await axio.post( comnpletion_url.concat(task),
         {"data":[prompt, ...params]}
     )
 
