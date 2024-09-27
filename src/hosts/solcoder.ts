@@ -2,6 +2,8 @@ import express, { Request } from 'express';
 import cors from 'cors'
 import axio from 'axios'
 
+const solcoder_url = process.env['SOLCODER_URL'] as string
+
 export const solcoder = () => {
   const app = express()
   const ips = new Map<string, number>()
@@ -20,7 +22,7 @@ export const solcoder = () => {
     const prompt = req.body.data[0]
     const task = req.body.data[1]
     const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( "https://0w534tgy9npivp-7861.proxy.runpod.net/ai/api/".concat(task),
+    const result = await axio.post( solcoder_url.concat(task),
         {"data":[prompt, ...params]}
     )
 
