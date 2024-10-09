@@ -19,17 +19,35 @@ export const solcoder = () => {
     }
     ips.set(req.ip, Date.now())
 
-    const prompt = req.body.data[0]
-    const task = req.body.data[1]
-    const params = req.body.data.slice(2, req.body.data.length)
-    const result = await axio.post( solcoder_url.concat(task),
-        {"data":[prompt, ...params]}
-    )
+    if (Array.isArray(req.body.data)) {      
+      const prompt = req.body.data[0]
+      const task = req.body.data[1]
+      const params = req.body.data.slice(2, req.body.data.length)
+      const result = await axio.post( solcoder_url.concat(task),
+          {"data":[prompt, ...params]}
+      )
+      const response = result.data
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(response));
+      next()
+    } else if (typeof req.body.data === 'object') {
+      const task = req.body.data.endpoint
+      const result = await axio.post( solcoder_url.concat(task),
+        {"data":req.body.data}
+      )
 
-    const response = result.data
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(response));
-    next()
+      if (req.body.data.stream_result){
+        res.setHeader('Content-Type', 'application/json');
+        res.end(result);
+        next()
+      }else{
+        const response = result.data
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(response));
+        next()
+      }
+    }
+    
   })
   return app
 }
