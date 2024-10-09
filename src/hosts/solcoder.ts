@@ -1,14 +1,22 @@
 import express, { Request } from 'express';
 import cors from 'cors'
 import axio from 'axios'
+import { parse } from 'path';
 
-const solcoder_url = process.env['SOLCODER_URL'] as string
+
+const solcoder_url = process.env['SOLCODER_URL'] as string || "http://127.0.0.1:7861/"
 
 export const solcoder = () => {
   const app = express()
   const ips = new Map<string, number>()
   app.use(cors())
   app.use('/.well-known', express.static('public/.well-known'));
+
+  app.get('/', async(req, res) => {
+    console.log('making request to', solcoder_url)
+    const result = await axio.get(solcoder_url)
+    res.send('Welcome to solcodertest.org!' + JSON.stringify(result.data));
+  });
   app.post('/', async (req: any, res: any, next: any) => {
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
       res.setHeader('Content-Type', 'application/json');
@@ -30,24 +38,43 @@ export const solcoder = () => {
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(response));
       next()
-    } else if (typeof req.body.data === 'object') {
-      const task = req.body.data.endpoint
-      const result = await axio.post( solcoder_url.concat(task),
-        {"data":req.body.data}
-      )
-
-      if (req.body.data.stream_result){
-        res.setHeader('Content-Type', 'application/json');
-        res.end(result);
-        next()
+    } else{
+      if (req.body.stream_result){
+        const task = req.body.endpoint
+        const response = await axio( solcoder_url.concat(task),{
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/event-stream",
+          },
+          responseType: 'stream',
+          data: JSON.stringify(req.body),
+        });
+        
+        res.setHeader('Content-Type', 'application/json');  // Adjust as per your content
+        res.setHeader('Transfer-Encoding', 'chunked');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        response.data.on('data', (chunk: Buffer) => {
+            res.write(`${chunk.toString()}`);
+        })
+        response.data.on('end', () => {
+          res.end();
+      });
       }else{
-        const response = result.data
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(response));
+        const task = req.body.endpoint
+        const response = await axio( solcoder_url.concat(task),{
+          method: 'POST', 
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify(req.body),
+        });
+        
+        res.end(JSON.stringify(response.data));
         next()
       }
     }
-    
   })
   return app
 }
