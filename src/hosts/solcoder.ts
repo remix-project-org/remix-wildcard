@@ -15,7 +15,7 @@ export const solcoder = () => {
   app.get('/', async(req, res) => {
     console.log('making request to', solcoder_url)
     const result = await axio.get(solcoder_url)
-    res.send('Welcome to solcodertest.org!' + JSON.stringify(result.data));
+    res.send('Welcome to RemixAI');
   });
   app.post('/', async (req: any, res: any, next: any) => {
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
