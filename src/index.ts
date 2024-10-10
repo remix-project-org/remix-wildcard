@@ -30,6 +30,7 @@ app.use(morgan('common', {
 }));
 app.use(morgan('dev'));
 
+
 //app.use(vhost('*', remixProject()));
 app.use(vhost('remixproject.org', remixProject()))
 app.use(vhost('www.remixproject.org', remixProject()))
@@ -52,7 +53,9 @@ app.use(vhost('common-corsproxy.remixproject.org', commonCorsProxy()))
 
 // Start the server
 const port = Number(80);
- @@ -59,8 +59,6 @@ app.listen(port, () => {
+app.listen(port, () => {
+    logger.info('Express server started on port: ' + port);
+});
 
 try {
     const httpsServer = https.createServer({
@@ -60,6 +63,10 @@ try {
         cert: fs.readFileSync('/etc/letsencrypt/live/acme.remixproject.org/fullchain.pem'),
     }, app);
     setupWsServer(httpsServer, '/solidityscan');
+    httpsServer.listen(443, () => {
+        logger.info('HTTPS Server running on port 443');
+    });
+
 } catch (e) {
     console.warn(e)
 }
