@@ -10,7 +10,7 @@ export const solcompletion = () => {
   app.use(cors())
   app.use('/.well-known', express.static('public/.well-known'));
   app.get('/', (req, res) => {
-    res.send('Welcome to solcodercomptest.org!');
+    res.send('Welcome to RemixAI')
   });
   app.post('/', async (req: any, res: any, next: any) => {
     res.setHeader('Content-Type', 'application/json');
