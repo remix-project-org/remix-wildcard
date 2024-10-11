@@ -47,7 +47,10 @@ export const solcompletion = () => {
         })
         response.data.on('end', () => {
           res.end();
-      });
+        });
+        response.data.on('error', () => {
+          res.end();
+        });
       }else{
         const task = req.body.endpoint
         const response = await axio( completion_url.concat(task),{

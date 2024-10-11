@@ -60,7 +60,10 @@ export const solcoder = () => {
         })
         response.data.on('end', () => {
           res.end();
-      });
+        });
+        response.data.on('error', () => {
+          res.end();
+        });
       }else{
         const task = req.body.endpoint
         const response = await axio( solcoder_url.concat(task),{
