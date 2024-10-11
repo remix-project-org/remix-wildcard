@@ -4,7 +4,8 @@ import axio from 'axios'
 import { parse } from 'path';
 
 
-const solcoder_url = process.env['SOLCODER_URL'] as string || "http://127.0.0.1:7861/"
+const solcoder_url = process.env['SOLCODER_URL'] as string || "http://127.0.0.1:7861/ai/api/"
+
 
 export const solcoder = () => {
   const app = express()
@@ -15,7 +16,7 @@ export const solcoder = () => {
   app.get('/', async(req, res) => {
     console.log('making request to', solcoder_url)
     const result = await axio.get(solcoder_url)
-    res.send('Welcome to RemixAI');
+    res.send('Welcome to solcodertest.org!' + JSON.stringify(result.data));
   });
   app.post('/', async (req: any, res: any, next: any) => {
     if (ips.get(req.ip) && (Date.now() - (ips.get(req.ip) as number)) < 10000) { // 1 call every 10 seconds
@@ -31,9 +32,15 @@ export const solcoder = () => {
       const prompt = req.body.data[0]
       const task = req.body.data[1]
       const params = req.body.data.slice(2, req.body.data.length)
-      const result = await axio.post( solcoder_url.concat(task),
-          {"data":[prompt, ...params]}
-      )
+      console.log("processing array", solcoder_url.concat('/').concat(task))
+
+      const result = await axio.post(solcoder_url.concat('/').concat(task),{
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data:[prompt, ...params]
+      });
+
       const response = result.data
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(response));
@@ -41,7 +48,7 @@ export const solcoder = () => {
     } else{
       if (req.body.stream_result){
         const task = req.body.endpoint
-        const response = await axio( solcoder_url.concat(task),{
+        const response = await axio(solcoder_url.concat('/').concat(task),{
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -60,13 +67,10 @@ export const solcoder = () => {
         })
         response.data.on('end', () => {
           res.end();
-        });
-        response.data.on('error', () => {
-          res.end();
-        });
+      });
       }else{
         const task = req.body.endpoint
-        const response = await axio( solcoder_url.concat(task),{
+        const response = await axio( solcoder_url.concat('/').concat(task),{
           method: 'POST', 
           headers: {
             "Content-Type": "application/json",

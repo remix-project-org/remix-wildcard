@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors'
 import axio from 'axios'
 
-const completion_url = process.env['COMPLETION_URL'] as string || "http://127.0.0.1:7861/"
+const completion_url = process.env['COMPLETION_URL'] as string || "http://127.0.0.1:7861/ai/api/"
 
 export const solcompletion = () => {
   const app = express()
@@ -10,7 +10,7 @@ export const solcompletion = () => {
   app.use(cors())
   app.use('/.well-known', express.static('public/.well-known'));
   app.get('/', (req, res) => {
-    res.send('Welcome to RemixAI')
+    res.send('Welcome to solcodercomptest.org!');
   });
   app.post('/', async (req: any, res: any, next: any) => {
     res.setHeader('Content-Type', 'application/json');
@@ -18,7 +18,7 @@ export const solcompletion = () => {
       const prompt = req.body.data[0]
       const task = req.body.data[1]
       const params = req.body.data.slice(2, req.body.data.length)
-      const result = await axio.post( completion_url.concat(task),
+      const result = await axio.post( completion_url.concat('/').concat(task),
           {"data":[prompt, ...params]}
       )
       const response = result.data
@@ -28,7 +28,7 @@ export const solcompletion = () => {
     } else{
       if (req.body.stream_result){
         const task = req.body.endpoint
-        const response = await axio( completion_url.concat(task),{
+        const response = await axio( completion_url.concat('/').concat(task),{
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -47,13 +47,10 @@ export const solcompletion = () => {
         })
         response.data.on('end', () => {
           res.end();
-        });
-        response.data.on('error', () => {
-          res.end();
-        });
+      });
       }else{
         const task = req.body.endpoint
-        const response = await axio( completion_url.concat(task),{
+        const response = await axio( completion_url.concat('/').concat(task),{
           method: 'POST', 
           headers: {
             "Content-Type": "application/json",
