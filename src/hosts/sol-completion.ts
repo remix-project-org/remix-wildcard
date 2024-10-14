@@ -18,7 +18,7 @@ export const solcompletion = () => {
       const prompt = req.body.data[0]
       const task = req.body.data[1]
       const params = req.body.data.slice(2, req.body.data.length)
-      const result = await axio.post( completion_url.concat('/').concat(task),
+      const result = await axio.post( completion_url.concat(task),
           {"data":[prompt, ...params]}
       )
       const response = result.data
@@ -28,7 +28,7 @@ export const solcompletion = () => {
     } else{
       if (req.body.stream_result){
         const task = req.body.endpoint
-        const response = await axio( completion_url.concat('/').concat(task),{
+        const response = await axio( completion_url.concat(task),{
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const solcompletion = () => {
       });
       }else{
         const task = req.body.endpoint
-        const response = await axio( completion_url.concat('/').concat(task),{
+        const response = await axio( completion_url.concat(task),{
           method: 'POST', 
           headers: {
             "Content-Type": "application/json",

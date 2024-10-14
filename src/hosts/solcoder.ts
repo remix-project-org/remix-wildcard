@@ -32,9 +32,8 @@ export const solcoder = () => {
       const prompt = req.body.data[0]
       const task = req.body.data[1]
       const params = req.body.data.slice(2, req.body.data.length)
-      console.log("processing array", solcoder_url.concat('/').concat(task))
 
-      const result = await axio.post(solcoder_url.concat('/').concat(task),{
+      const result = await axio.post(solcoder_url.concat(task),{
         headers: {
           "Content-Type": "application/json",
         },
@@ -48,7 +47,7 @@ export const solcoder = () => {
     } else{
       if (req.body.stream_result){
         const task = req.body.endpoint
-        const response = await axio(solcoder_url.concat('/').concat(task),{
+        const response = await axio(solcoder_url.concat(task),{
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +69,7 @@ export const solcoder = () => {
       });
       }else{
         const task = req.body.endpoint
-        const response = await axio( solcoder_url.concat('/').concat(task),{
+        const response = await axio( solcoder_url.concat(task),{
           method: 'POST', 
           headers: {
             "Content-Type": "application/json",
