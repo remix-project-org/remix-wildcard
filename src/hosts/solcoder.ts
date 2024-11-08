@@ -74,7 +74,7 @@ export const solcoder = () => {
           response.data.on('data', (chunk: Buffer) => {
             
               try {
-                  res.write(`${chunk.toString()}`);
+                  res.write(chunk);
               } catch (e) {
                 console.log(e)
               }
